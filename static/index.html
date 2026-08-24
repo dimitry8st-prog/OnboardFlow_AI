@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OnboardFlow AI — адаптация без стресса</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">O</span><span>OnboardFlow <b>AI</b></span></a>
+    <span id="mode" class="mode">Проверка режима…</span>
+  </header>
+  <main>
+    <section class="hero">
+      <div>
+        <p class="eyebrow">Ваш первый месяц — по понятному маршруту</p>
+        <h1>Адаптация без лишнего стресса</h1>
+        <p class="lead">Получайте инструкции, находите нужные контакты и двигайтесь по чек-листу. Сложные вопросы ассистент передаст человеку.</p>
+        <div class="chips">
+          <button data-question="Что нужно сделать в первый рабочий день?">Первый день</button>
+          <button data-question="Как получить доступ к CRM?">Доступ к CRM</button>
+          <button data-question="Какой у нас рабочий график?">Рабочий график</button>
+        </div>
+      </div>
+      <div class="metric-card"><strong>3</strong><span>этапа адаптации</span><small>День · Неделя · Месяц</small></div>
+    </section>
+
+    <section class="workspace">
+      <article class="chat-card">
+        <div class="card-head"><div><span class="online"></span> Ассистент на связи</div><small>Не передавайте персональные данные</small></div>
+        <div id="messages" class="messages">
+          <div class="message assistant">Здравствуйте! Я помогу с адаптацией, рабочими инструментами и чек-листами. С чего начнём?</div>
+        </div>
+        <form id="chat-form">
+          <label class="sr-only" for="message">Ваш вопрос</label>
+          <textarea id="message" maxlength="2000" placeholder="Например: как получить корпоративную почту?" required></textarea>
+          <button type="submit">Отправить</button>
+        </form>
+      </article>
+
+      <aside class="checklist-card">
+        <p class="eyebrow">Мой маршрут</p>
+        <h2>Чек-листы</h2>
+        <div id="checklists" class="checklists"></div>
+      </aside>
+    </section>
+  </main>
+  <footer>Учебный MVP · только вымышленные данные · OnboardFlow AI</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
+
