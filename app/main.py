@@ -72,13 +72,17 @@ def llm_answer(message: str, matches: list[KnowledgeItem]) -> str | None:
         for item in matches
     )
     instructions = PROMPT_FILE.read_text(encoding="utf-8")
-    client = OpenAI()
-    response = client.responses.create(
-        model=os.getenv("OPENAI_MODEL", "gpt-5.6-luna"),
-        instructions=instructions,
-        input=f"ВОПРОС СОТРУДНИКА:\n{message}\n\nРАЗРЕШЁННЫЙ КОНТЕКСТ:\n{context}",
-    )
-    return response.output_text.strip()
+    try:
+        client = OpenAI()
+        response = client.responses.create(
+            model=os.getenv("OPENAI_MODEL", "gpt-5.6-luna"),
+            instructions=instructions,
+            input=f"ВОПРОС СОТРУДНИКА:\n{message}\n\nРАЗРЕШЁННЫЙ КОНТЕКСТ:\n{context}",
+        )
+        return response.output_text.strip()
+    except Exception as exc:
+        print(f"OpenAI unavailable, falling back to demo answers: {exc}")
+        return None
 
 
 @app.get("/", include_in_schema=False)
@@ -124,7 +128,11 @@ def chat(payload: ChatRequest) -> ChatResponse:
             mode="knowledge-fallback",
         )
 
-    answer = llm_answer(payload.message, matches) or format_demo_answer(matches[0])
+    try:
+        answer = llm_answer(payload.message, matches) or format_demo_answer(matches[0])
+    except Exception as exc:
+        print(f"OpenAI unavailable, falling back to demo answers: {exc}")
+        answer = format_demo_answer(matches[0])
     return ChatResponse(
         answer=answer,
         status="answered",
